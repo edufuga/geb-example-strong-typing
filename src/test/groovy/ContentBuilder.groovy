@@ -3,9 +3,11 @@ import geb.Page
 import geb.content.PageContentTemplate
 import groovy.transform.TypeChecked
 
+// FIXME: The order of the builder is not explicit.
+// Do something like Browser -> Page (-> Cache/Wait) -> Definition -> Build
 @TypeChecked
 class ContentBuilder {
-	
+
 	Browser browser
 	Page page
 	boolean cache
@@ -36,6 +38,7 @@ class ContentBuilder {
 	}
 
 	PageContentTemplate build() {
+		Objects.requireNonNull(browser, "The browser has to exist")
 		Objects.requireNonNull(page, "The page has to exist")
 		Objects.requireNonNull(definition, "The content definition has to exist")
 		return new PageContentTemplate(browser, null, "someName", [cache:cache], definition , browser.navigatorFactory)

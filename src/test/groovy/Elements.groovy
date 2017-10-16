@@ -4,16 +4,20 @@ import geb.content.PageContentTemplate
 import groovy.transform.TypeChecked
 import geb.navigator.Navigator
 
-//@TypeChecked
-class Elements {
-	Page page
-	Browser browser
+@TypeChecked
+abstract class Elements {
+	protected Page page
+	protected Browser browser
+	protected ContentBuilder builder
 
 	Elements(Browser browser, Page page) {
 		this.browser = browser
 		this.page = page
+		this.builder = ContentBuilder.newInstance()
+			.withBrowser(browser)
+			.withPage(page)
+		initialize()
 	}
 
-	PageContentTemplate search = ContentBuilder.newInstance().withPage(page).withBrowser(browser).withDefinition({$("input#q")}).build()
-	PageContentTemplate wrapper = ContentBuilder.newInstance().withPage(page).withBrowser(browser).withDefinition({$("div.search-large-wrapper")}).build()
+	abstract void initialize()
 }

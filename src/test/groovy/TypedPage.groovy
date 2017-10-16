@@ -17,15 +17,17 @@ import groovy.lang.Delegate
 import groovy.transform.TypeCheckingMode
 
 @TypeChecked
-class TestPage extends Page {
+class TypedPage extends Page {
 
-	Browser browser = super.getBrowser()
-	NavigableSupport navigableSupport
-	DownloadSupport downloadSupport
-	WaitingSupport waitingSupport
-	FrameSupport frameSupport
-	InteractionsSupport interactionsSupport
-	AlertAndConfirmSupport alertAndConfirmSupport
+	protected Browser browser = super.getBrowser()
+	protected NavigableSupport navigableSupport
+	protected DownloadSupport downloadSupport
+	protected WaitingSupport waitingSupport
+	protected FrameSupport frameSupport
+	protected InteractionsSupport interactionsSupport
+	protected AlertAndConfirmSupport alertAndConfirmSupport
+
+	protected ContentBuilder builder
 
 	@TypeChecked(TypeCheckingMode.SKIP)
 	@Override
@@ -46,8 +48,8 @@ class TestPage extends Page {
 		browser
 	}
 
+	@Override
 	Page init(Browser browser) {
-		println "Browser $browser"
 		this.browser = browser
 		navigableSupport = new NavigableSupport(browser.navigatorFactory)
 		downloadSupport = new DefaultDownloadSupport(browser)
@@ -55,14 +57,10 @@ class TestPage extends Page {
 		frameSupport = new DefaultFrameSupport(browser)
 		interactionsSupport = new DefaultInteractionsSupport(browser)
 		alertAndConfirmSupport = new DefaultAlertAndConfirmSupport({ this.getJs() }, browser.config)
-		
-		elements = new Elements(this.browser, this)
+		builder = ContentBuilder.newInstance().withBrowser(browser).withPage(this)
 		this
 	}
 
-	static url = "http://de.pons.com/"
-
-	@Delegate
 	Elements elements
 
 }
