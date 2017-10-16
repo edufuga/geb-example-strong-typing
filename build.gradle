@@ -1,0 +1,141 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+import org.apache.commons.io.FileUtils
+
+apply plugin: "groovy"
+apply plugin: "eclipse"
+
+repositories {
+    jcenter()
+}
+
+ext {
+	drivers = ["firefox", "chrome"]
+
+	geckoDriverVersion = '0.19.0'
+	chromeDriverVersion = '2.33'
+}
+
+drivers.each { driver ->
+	task "${driver}Test"(type: Test) {
+		reports {
+			html.destination = reporting.file("$name/html")
+		}
+
+		outputs.upToDateWhen { false }  // Always run tests
+
+		systemProperty "geb.build.reportsDir", reporting.file("$name/geb")
+		systemProperty "geb.env", driver
+	}
+}
+
+buildscript {
+	repositories {
+		jcenter()
+	}
+	dependencies {
+		classpath "commons-io:commons-io:2.5"
+	}
+}
+
+dependencies {
+	testCompile "org.gebish:geb-core:1.1.1"
+	testCompile "org.gebish:geb-junit4:1.1.1"
+	testCompile "org.gebish:geb-spock:1.1.1"
+	testCompile("org.spockframework:spock-core:1.0-groovy-2.4") {
+		exclude group: "org.codehaus.groovy-all"
+	}
+	testCompile "org.codehaus.groovy:groovy-all:2.4.10"
+	testCompile "org.seleniumhq.selenium:selenium-firefox-driver:3.3.1"
+	testCompile "org.seleniumhq.selenium:selenium-chrome-driver:3.3.1"
+	testCompile "org.seleniumhq.selenium:selenium-support:2.52.0"
+	compile group: 'commons-io', name: 'commons-io', version: '2.5'
+}
+
+test {
+	systemProperties "geb.build.reportsDir": "$reportsDir/geb"
+}
+
+task downloadGeckoDriver {
+	def driverOsFilenamePart
+	def fileEnding
+	if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+		driverOsFilenamePart = "win64"
+		fileEnding = "zip"
+	} else if (Os.isFamily(Os.FAMILY_MAC)) {
+		driverOsFilenamePart = "macos"
+		fileEnding = "tar.gz"
+	} else if (Os.isFamily(Os.FAMILY_UNIX)) {
+		driverOsFilenamePart = "linux64"
+		fileEnding = "tar.gz"
+	}
+
+	def filename = "geckodriver.$fileEnding"
+	def outputFile = file("$buildDir/webdriver/$filename")
+	inputs.property("geckoDriverVersion", geckoDriverVersion)
+	outputs.file(outputFile)
+
+	doLast {
+		FileUtils.copyURLToFile(new URL("https://github.com/mozilla/geckodriver/releases/download/v${geckoDriverVersion}/geckodriver-v${geckoDriverVersion}-${driverOsFilenamePart}.${fileEnding}"), outputFile)
+	}
+}
+
+task unzipGeckoDriver(type: Copy) {
+	def outputDir = file("$buildDir/webdriver/geckodriver")
+	dependsOn downloadGeckoDriver
+
+	outputs.dir(outputDir)
+
+	def driverFile = downloadGeckoDriver.outputs.files.singleFile
+	FileTree driver = (driverFile.name.endsWith("zip")) ? zipTree(driverFile) : tarTree(driverFile)
+
+	from(driver)
+	into(outputDir)
+}
+
+task downloadChromeDriver {
+	def outputFile = file("$buildDir/webdriver/chromedriver.zip")
+	inputs.property("chromeDriverVersion", chromeDriverVersion)
+	outputs.file(outputFile)
+
+	doLast {
+		def driverOsFilenamePart
+		if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+			driverOsFilenamePart = "win32"
+		} else if (Os.isFamily(Os.FAMILY_MAC)) {
+			driverOsFilenamePart = "mac32"
+		} else if (Os.isFamily(Os.FAMILY_UNIX)) {
+			driverOsFilenamePart = "linux64" // Os.isArch("amd64") ? "linux64" : "linux32"
+		}
+		FileUtils.copyURLToFile(new URL("http://chromedriver.storage.googleapis.com/${chromeDriverVersion}/chromedriver_${driverOsFilenamePart}.zip"), outputFile)
+	}
+}
+
+task unzipChromeDriver(type: Copy) {
+	def outputDir = file("$buildDir/webdriver/chromedriver")
+	dependsOn downloadChromeDriver
+	outputs.dir(outputDir)
+
+	from(zipTree(downloadChromeDriver.outputs.files.singleFile))
+	into(outputDir)
+}
+
+chromeTest {
+	dependsOn unzipChromeDriver
+
+	def chromedriverFilename = Os.isFamily(Os.FAMILY_WINDOWS) ? "chromedriver.exe" : "chromedriver"
+	systemProperty "webdriver.chrome.driver", new File(unzipChromeDriver.outputs.files.singleFile, chromedriverFilename).absolutePath
+}
+
+firefoxTest {
+	dependsOn unzipGeckoDriver
+
+	def firefoxDriverFilename = Os.isFamily(Os.FAMILY_WINDOWS) ? "geckodriver.exe" : "geckodriver"
+	systemProperty "webdriver.gecko.driver", new File(unzipGeckoDriver.outputs.files.singleFile, firefoxDriverFilename).absolutePath
+}
+
+
+groovydoc {
+	source = "src/test/groovy"
+	docTitle = "Example of localized Geb tests"
+	classpath = sourceSets.test.runtimeClasspath
+}
