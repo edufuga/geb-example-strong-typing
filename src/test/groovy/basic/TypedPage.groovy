@@ -67,6 +67,7 @@ class TypedPage extends Page {
 		frameSupport = new DefaultFrameSupport(browser)
 		interactionsSupport = new DefaultInteractionsSupport(browser)
 		alertAndConfirmSupport = new DefaultAlertAndConfirmSupport({ this.getJs() }, browser.config)
+		this.navigatorCache = [:]
 		this
 	}
 
@@ -256,14 +257,41 @@ class TypedPage extends Page {
 		waitingSupport.waitFor(params, timeout, interval, block)
 	}
 
+	protected Map<Integer, Navigator> navigatorCache = [:]
+
 	// Explicit waiting support for definition
 	// TODO: Add cache(?) and required.
-	Navigator getDefinition(Closure<Navigator> definition, boolean waiting = false) {
-		if (waiting) {
-			return waitFor(definition)
-		}
-		return definition()
-	}
+	Navigator getDefinition(Closure<Navigator> definition, boolean waiting = false, boolean cache = false) {
+		Navigator result
 
+		println "Definition $definition with hash code ${definition.hashCode()}"
+
+		if (cache) {
+			println "Looking definition $definition in navigator cache."
+			Navigator element = navigatorCache[definition.hashCode()]
+			if (element) {
+				println "Element $element was found."
+				return element
+			}
+			else {
+				println "Definition $definition not found in cash. Adding it."
+				Navigator e = getDefinition(definition, waiting, false)
+				navigatorCache[definition.hashCode()] = e 
+				if (e) {
+					println "Element $e was added successfully in cache."
+				}
+				else {
+					println "Could not create element for definition."
+				}
+			}
+		}
+
+		if (waiting) {
+			result = waitFor(definition)
+		}
+		else {
+			result = definition()
+		}
+	}
 
 }

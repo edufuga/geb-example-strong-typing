@@ -12,8 +12,10 @@ class PageWithElementMethods extends TypedPage {
 
 	static url = "http://de.pons.com/"
 
+	private final Closure<Navigator> _searchBox = {$("input#q")}
+
 	Navigator getSearchBox() {
-		getDefinition({$("input#q")}, true)
+		getDefinition(_searchBox, true, true)
 	}
 
 	Navigator getWrapper() {
