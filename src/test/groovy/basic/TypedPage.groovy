@@ -259,26 +259,26 @@ class TypedPage extends Page {
 
 	protected Map<Integer, Navigator> navigatorCache = [:]
 
-	// Explicit waiting support for definition
-	// TODO: Add cache(?) and required.
-	Navigator getDefinition(Closure<Navigator> definition, boolean waiting = false, boolean cache = false) {
+	// Explicit waiting and caching support for definition
+	// TODO: Add required.
+	protected Navigator getDefinition(Closure<Navigator> definition, boolean waiting = false, boolean cache = false) {
 		Navigator result
 
-		println "Definition $definition with hash code ${definition.hashCode()}"
+		println "Definition with hash code '${definition.hashCode()}'."
 
 		if (cache) {
-			println "Looking definition $definition in navigator cache."
+			println "Looking definition in navigator cache."
 			Navigator element = navigatorCache[definition.hashCode()]
 			if (element) {
-				println "Element $element was found."
+				println "Element '$element' was found."
 				return element
 			}
 			else {
-				println "Definition $definition not found in cash. Adding it."
+				println "Definition not found in cash. Adding it."
 				Navigator e = getDefinition(definition, waiting, false)
 				navigatorCache[definition.hashCode()] = e 
 				if (e) {
-					println "Element $e was added successfully in cache."
+					println "Element '$e' was added successfully in cache."
 				}
 				else {
 					println "Could not create element for definition."
