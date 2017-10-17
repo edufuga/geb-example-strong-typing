@@ -1,3 +1,4 @@
+package simple
 import geb.Browser
 import geb.Page
 

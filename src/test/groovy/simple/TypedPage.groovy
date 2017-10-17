@@ -1,3 +1,4 @@
+package simple
 import geb.Browser
 import geb.Page
 import geb.content.NavigableSupport
@@ -48,6 +49,10 @@ class TypedPage extends Page {
 		browser
 	}
 
+	/**
+	 * Page without "content" closure and therefore
+	 * without Content Definition DSL.
+	 */
 	@Override
 	Page init(Browser browser) {
 		this.browser = browser

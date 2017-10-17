@@ -1,3 +1,4 @@
+package simple
 import geb.navigator.Navigator
 import geb.spock.GebReportingSpec
 
