@@ -11,12 +11,20 @@ class PageWithElementMethods extends TypedPage {
 
 	static url = "http://de.pons.com/"
 
+	// This should go to TypedPage.
+	Navigator getDefinition(Closure<Navigator> definition, boolean waiting = false) {
+		if (waiting) {
+			return waitFor(definition)
+		}
+		return definition()
+	}
+
 	Navigator getSearchBox() {
 		$("input#q")
 	}
 
 	Navigator waitForSearchBox() {
-		waitFor(this.&getSearchBox)
+		getDefinition(this.&getSearchBox, true)
 	}
 
 	Navigator getWrapper() {
