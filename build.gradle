@@ -136,6 +136,6 @@ firefoxTest {
 
 groovydoc {
 	source = "src/test/groovy"
-	docTitle = "Example of localized Geb tests"
+	docTitle = "Example of strongly typed Geb tests"
 	classpath = sourceSets.test.runtimeClasspath
 }

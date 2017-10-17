@@ -22,6 +22,14 @@ class PageWithElementMethods extends TypedPage {
 		$("div.search-large-wrapper")
 	}
 
+	Navigator getBar() {
+		$(".nav-secondary")
+	}
+
+	Navigator menu(int idx) {
+		bar.$("li", idx)
+	}
+
 	/*
 	 * Searches the given word.
 	 */

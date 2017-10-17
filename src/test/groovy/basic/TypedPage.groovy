@@ -259,6 +259,7 @@ class TypedPage extends Page {
 
 	protected Map<Integer, Navigator> navigatorCache = [:]
 
+	// FIXME: Likely the caching does not work with different closure parameters.
 	// TODO: Add required.
 	/**
 	 * Explicit waiting and caching support for a content definition.
