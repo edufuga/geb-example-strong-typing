@@ -281,7 +281,6 @@ class TypedPage extends Page {
 	 * }
 	 * </pre>
 	 * </p>
-	 *
 	 * 
 	 * @param definition Content Definition
 	 * @return Navigator corresponding to the definition

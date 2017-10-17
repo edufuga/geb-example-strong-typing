@@ -6,6 +6,7 @@ import geb.Page
 import geb.navigator.Navigator
 import groovy.transform.TypeChecked
 import groovy.transform.TypeCheckingMode
+import groovy.transform.stc.ClosureParams
 
 @TypeChecked
 class PageWithElementMethods extends TypedPage {
@@ -26,9 +27,9 @@ class PageWithElementMethods extends TypedPage {
 		$(".nav-secondary")
 	}
 
-	private final Closure<Navigator> _menu = {int idx -> bar.$("li", idx)}
+	private final Closure<Navigator> _menu = {int idx -> bar.$("li", idx)}.memoize()
 
-	final Closure<Navigator> waitedMenu = {int idx -> this.&getDefinition({_menu(idx)}, true, true)}
+	private final Closure<Navigator> waitedMenu = {int idx -> this.&getDefinition({_menu(idx)}, true, true)}
 
 	Navigator menu(int idx) {
 		getDefinition({_menu(idx)}, true, true)
