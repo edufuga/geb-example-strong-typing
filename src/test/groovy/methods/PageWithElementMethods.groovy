@@ -15,6 +15,10 @@ class PageWithElementMethods extends TypedPage {
 		$("input#q")
 	}
 
+	Navigator waitForSearchBox() {
+		waitFor(this.&getSearchBox)
+	}
+
 	Navigator getWrapper() {
 		$("div.search-large-wrapper")
 	}

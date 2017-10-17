@@ -13,6 +13,7 @@ class PageWithElementMethodsSpec extends GebReportingSpec {
 		then:
 		page.searchBox.value("Test")
 		page.search("Kugel")
+		page.waitForSearchBox().value("warten")
 
 		println page.wrapper.$("h1").text()
 	}

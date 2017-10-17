@@ -3,6 +3,7 @@ import org.openqa.selenium.By
 import org.openqa.selenium.WebElement
 
 import geb.Browser
+import geb.Module
 import geb.Page
 import geb.content.NavigableSupport
 import geb.download.DefaultDownloadSupport
@@ -225,5 +226,36 @@ class TypedPage extends Page {
 		navigableSupport.$(elements)
 	}
 
+	// Copy-Paste from Page for waiting support
+	
+	@Override
+	<T extends Module> T module(Class<T> moduleClass) {
+		navigableSupport.module(moduleClass)
+	}
+
+	@Override
+	<T extends Module> T module(T module) {
+		navigableSupport.module(module)
+	}
+
+	@Override
+	def <T> T waitFor(Map params = [:], String waitPreset, Closure<T> block) {
+		waitingSupport.waitFor(params, waitPreset, block)
+	}
+
+	@Override
+	def <T> T waitFor(Map params = [:], Closure<T> block) {
+		waitingSupport.waitFor(params, block)
+	}
+
+	@Override
+	def <T> T waitFor(Map params = [:], Double timeout, Closure<T> block) {
+		waitingSupport.waitFor(params, timeout, block)
+	}
+
+	@Override
+	def <T> T waitFor(Map params = [:], Double timeout, Double interval, Closure<T> block) {
+		waitingSupport.waitFor(params, timeout, interval, block)
+	}
 
 }
