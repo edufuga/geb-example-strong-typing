@@ -66,6 +66,4 @@ class TypedPage extends Page {
 		this
 	}
 
-	Elements elements
-
 }
