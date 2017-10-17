@@ -1,4 +1,5 @@
 package simple
+import basic.TypedPage
 import geb.Browser
 import geb.Page
 import geb.content.PageContentTemplate
