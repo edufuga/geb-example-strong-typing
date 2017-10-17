@@ -35,8 +35,6 @@ class TypedPage extends Page {
 	protected InteractionsSupport interactionsSupport
 	protected AlertAndConfirmSupport alertAndConfirmSupport
 
-	protected ContentBuilder builder
-
 	@TypeChecked(TypeCheckingMode.SKIP)
 	@Override
 	void to(Map params, UrlFragment fragment = null, Object[] args) {
@@ -69,7 +67,6 @@ class TypedPage extends Page {
 		frameSupport = new DefaultFrameSupport(browser)
 		interactionsSupport = new DefaultInteractionsSupport(browser)
 		alertAndConfirmSupport = new DefaultAlertAndConfirmSupport({ this.getJs() }, browser.config)
-		builder = ContentBuilder.newInstance().withBrowser(browser).withPage(this)
 		this
 	}
 
@@ -260,6 +257,7 @@ class TypedPage extends Page {
 	}
 
 	// Explicit waiting support for definition
+	// TODO: Add cache(?) and required.
 	Navigator getDefinition(Closure<Navigator> definition, boolean waiting = false) {
 		if (waiting) {
 			return waitFor(definition)

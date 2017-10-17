@@ -12,6 +12,8 @@ class SimplePage extends TypedPage {
 
 	static url = "http://de.pons.com/"
 
+	ContentBuilder builder
+
 	@Delegate
 	SimpleElements elements
 
@@ -20,6 +22,7 @@ class SimplePage extends TypedPage {
 	@Override
 	Page init(Browser browser) {
 		super.init(browser)
+		builder = ContentBuilder.newInstance().withBrowser(browser).withPage(this)
 		elements = new SimpleElements(browser, this)
 		this
 	}
