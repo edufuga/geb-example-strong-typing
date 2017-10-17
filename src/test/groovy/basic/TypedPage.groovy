@@ -19,6 +19,7 @@ import geb.url.UrlFragment
 import geb.waiting.DefaultWaitingSupport
 import geb.waiting.WaitingSupport
 import groovy.transform.TypeChecked
+import groovy.lang.Closure
 import groovy.lang.Delegate
 import groovy.transform.TypeCheckingMode
 import simple.ContentBuilder
@@ -257,5 +258,14 @@ class TypedPage extends Page {
 	def <T> T waitFor(Map params = [:], Double timeout, Double interval, Closure<T> block) {
 		waitingSupport.waitFor(params, timeout, interval, block)
 	}
+
+	// Explicit waiting support for definition
+	Navigator getDefinition(Closure<Navigator> definition, boolean waiting = false) {
+		if (waiting) {
+			return waitFor(definition)
+		}
+		return definition()
+	}
+
 
 }
