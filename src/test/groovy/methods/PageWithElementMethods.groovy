@@ -26,8 +26,10 @@ class PageWithElementMethods extends TypedPage {
 		$(".nav-secondary")
 	}
 
+	private final Closure<Navigator> _menu = {int idx -> bar.$("li", idx)}
+
 	Navigator menu(int idx) {
-		bar.$("li", idx)
+		getDefinition({_menu(idx)}, true, true)
 	}
 
 	/*
