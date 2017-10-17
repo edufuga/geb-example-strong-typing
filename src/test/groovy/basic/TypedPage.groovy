@@ -259,30 +259,42 @@ class TypedPage extends Page {
 
 	protected Map<Integer, Navigator> navigatorCache = [:]
 
-	// Explicit waiting and caching support for definition
 	// TODO: Add required.
+	/**
+	 * Explicit waiting and caching support for a content definition.
+	 * 
+	 * <p>
+	 * <strong>
+	 * The closure has to be the same at every method call if its Navigator has to be cached.
+	 * </strong>
+	 * </p>
+	 * 
+	 * <p>
+	 * Example:
+	 * <pre>
+	 * {@code
+	 * private final Closure<Navigator> _searchBox = {$("input#q")}
+	 *  
+	 * Navigator getSearchBox() {
+	 *    getDefinition(_searchBox, true, true)
+	 * }
+	 * </pre>
+	 * </p>
+	 *
+	 * 
+	 * @param definition Content Definition
+	 * @return Navigator corresponding to the definition
+	 */
 	protected Navigator getDefinition(Closure<Navigator> definition, boolean waiting = false, boolean cache = false) {
 		Navigator result
 
-		println "Definition with hash code '${definition.hashCode()}'."
-
 		if (cache) {
-			println "Looking definition in navigator cache."
 			Navigator element = navigatorCache[definition.hashCode()]
 			if (element) {
-				println "Element '$element' was found."
 				return element
 			}
 			else {
-				println "Definition not found in cash. Adding it."
-				Navigator e = getDefinition(definition, waiting, false)
-				navigatorCache[definition.hashCode()] = e 
-				if (e) {
-					println "Element '$e' was added successfully in cache."
-				}
-				else {
-					println "Could not create element for definition."
-				}
+				navigatorCache[definition.hashCode()] = getDefinition(definition, waiting, false)
 			}
 		}
 
