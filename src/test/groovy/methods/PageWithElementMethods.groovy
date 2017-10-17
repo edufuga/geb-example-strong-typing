@@ -28,6 +28,8 @@ class PageWithElementMethods extends TypedPage {
 
 	private final Closure<Navigator> _menu = {int idx -> bar.$("li", idx)}
 
+	final Closure<Navigator> waitedMenu = {int idx -> this.&getDefinition({_menu(idx)}, true, true)}
+
 	Navigator menu(int idx) {
 		getDefinition({_menu(idx)}, true, true)
 	}
