@@ -11,12 +11,19 @@ class PageWithElementMethods extends TypedPage {
 
 	static url = "http://de.pons.com/"
 
-	Navigator getSearch() {
+	Navigator getSearchBox() {
 		$("input#q")
 	}
 
 	Navigator getWrapper() {
 		$("div.search-large-wrapper")
+	}
+
+	/*
+	 * Searches the given word.
+	 */
+	void search(String word) {
+		searchBox.value(word)
 	}
 
 }

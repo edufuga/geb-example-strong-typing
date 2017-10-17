@@ -11,7 +11,8 @@ class PageWithElementMethodsSpec extends GebReportingSpec {
 		PageWithElementMethods page = browser.to(PageWithElementMethods)
 
 		then:
-		page.search.value("Test")
+		page.searchBox.value("Test")
+		page.search("Kugel")
 
 		println page.wrapper.$("h1").text()
 	}
