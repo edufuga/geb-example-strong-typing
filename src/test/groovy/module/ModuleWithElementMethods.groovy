@@ -39,6 +39,18 @@ class ModuleWithElementMethods extends TypedModule {
 	Navigator category(DictionaryCategory cat = categoria) {
 		category.call(cat)
 	}
+
+	/*
+	@Override
+	Navigator value(value) {
+		category().value(value)
+	}
+	*/
+
+	@Override
+	def value() {
+		category().text()
+	}
 }
 
 enum DictionaryCategory {

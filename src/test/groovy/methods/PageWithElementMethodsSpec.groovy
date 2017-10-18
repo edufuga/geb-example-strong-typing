@@ -19,6 +19,7 @@ class PageWithElementMethodsSpec extends GebReportingSpec {
 		println page.wrapper.$("h1").text()
 		println page.category(MYPONS).text()
 		println page.dictionary.text()
+		println page.dictionaryModule.value()
 	}
 }
 

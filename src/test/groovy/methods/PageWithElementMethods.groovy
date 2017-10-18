@@ -149,11 +149,15 @@ class PageWithElementMethods extends TypedPage {
 	 * <p>
 	 * This represents the category "dictionary". It is a concrete element of "category".
 	 */
-	private final Closure<ModuleWithElementMethods> dictionaryModule = {
+	private final Closure<ModuleWithElementMethods> dictionaryModuleClosure = {
 		module(new ModuleWithElementMethods(DictionaryCategory.DICTIONARY))
 	}
 
+	ModuleWithElementMethods getDictionaryModule() {
+		dictionaryModuleClosure.call()
+	}
+
 	Navigator getDictionary() {
-		dictionaryModule.call().category.call()
+		dictionaryModule.category.call()
 	}
 }
