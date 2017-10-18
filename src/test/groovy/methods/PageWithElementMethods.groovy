@@ -121,12 +121,12 @@ class PageWithElementMethods extends TypedPage {
 		return getDefinition({$("#typeahead-menu").$("li")}, true).collect { Navigator n -> n.text() }
 	}
 
-	// This can't work because then method call "module" can't use a
+	// This can't work because the method call "module" can't use a
 	// not initialized "navigableSupport". The Page has to be initialized first.
 	// 
 	// ModuleWithElementMethods categoryModule = module(ModuleWithElementMethods)
 
-	Closure<ModuleWithElementMethods> categoryModule = {module(ModuleWithElementMethods)}
+	private final Closure<ModuleWithElementMethods> categoryModule = {module(ModuleWithElementMethods)}
 
 	Navigator category(DictionaryCategory cat) {
 		ModuleWithElementMethods m = categoryModule.call()

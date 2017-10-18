@@ -1,7 +1,7 @@
 package methods
 
 import geb.spock.GebReportingSpec
-import static module.DictionaryCategory.DICTIONARY
+import static module.DictionaryCategory.*
 import spock.lang.IgnoreRest
 
 class PageWithElementMethodsSpec extends GebReportingSpec {
