@@ -9,8 +9,13 @@ class ModuleWithElementMethods extends TypedModule {
 
 	private DictionaryCategory categoria
 
+	ModuleWithElementMethods() {
+		println "'module(Class)' uses the default constructor."
+	}
+
 	ModuleWithElementMethods(DictionaryCategory categoria) {
-		// Objects.requireNonNull(categoria, "The dictionary category has to exist")
+		println "'module(Instance)' using the parameterized constructor with category '$categoria'."
+		Objects.requireNonNull(categoria, "The dictionary category has to exist")
 		this.categoria = categoria
 	}
 

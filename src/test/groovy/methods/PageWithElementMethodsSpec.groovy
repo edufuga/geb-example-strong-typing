@@ -17,7 +17,7 @@ class PageWithElementMethodsSpec extends GebReportingSpec {
 		println page.menu(1).text()
 		println page.waitedMenu(2).text()
 		println page.wrapper.$("h1").text()
-		println page.category(DICTIONARY).text()
+		println page.category(MYPONS).text()
 		println page.dictionary.text()
 	}
 }
