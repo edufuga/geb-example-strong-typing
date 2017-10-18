@@ -1,6 +1,7 @@
 package methods
 
 import geb.spock.GebReportingSpec
+import static module.DictionaryCategory.DICTIONARY
 import spock.lang.IgnoreRest
 
 class PageWithElementMethodsSpec extends GebReportingSpec {
@@ -16,6 +17,7 @@ class PageWithElementMethodsSpec extends GebReportingSpec {
 		println page.menu(1).text()
 		println page.waitedMenu(2).text()
 		println page.wrapper.$("h1").text()
+		println page.category(DICTIONARY).text()
 	}
 }
 

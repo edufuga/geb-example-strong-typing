@@ -2,11 +2,14 @@ package methods
 
 import basic.TypedPage
 import geb.Browser
+import geb.Module
 import geb.Page
 import geb.navigator.Navigator
 import groovy.transform.TypeChecked
 import groovy.transform.TypeCheckingMode
 import groovy.transform.stc.ClosureParams
+import module.DictionaryCategory
+import module.ModuleWithElementMethods
 
 @TypeChecked
 class PageWithElementMethods extends TypedPage {
@@ -116,6 +119,20 @@ class PageWithElementMethods extends TypedPage {
 	 */
 	List<String> getWords() {
 		return getDefinition({$("#typeahead-menu").$("li")}, true).collect { Navigator n -> n.text() }
+	}
+
+	// This can't work because then method call "module" can't use a
+	// not initialized "navigableSupport". The Page has to be initialized first.
+	// 
+	// ModuleWithElementMethods categoryModule = module(ModuleWithElementMethods)
+
+	Closure<ModuleWithElementMethods> categoryModule = {module(ModuleWithElementMethods)}
+
+	Navigator category(DictionaryCategory cat) {
+		ModuleWithElementMethods m = categoryModule.call()
+		assert m
+		println "Module exists."
+		m.category.call(cat)
 	}
 
 }

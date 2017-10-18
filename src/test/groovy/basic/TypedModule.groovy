@@ -2,7 +2,6 @@ package basic
 
 import org.openqa.selenium.By
 import org.openqa.selenium.WebElement
-
 import geb.Browser
 import geb.Module
 import geb.Page
@@ -21,9 +20,11 @@ import geb.waiting.DefaultWaitingSupport
 import geb.waiting.Wait
 import geb.waiting.WaitingSupport
 import groovy.lang.MetaClass
+import groovy.transform.TypeChecked
 
 //FIXME: Replace methodMissing and propertyMissing by something different
-// (without resorting to PageContentSupport, which doesn't exist anymore). 
+// (without resorting to PageContentSupport, which doesn't exist anymore).
+@TypeChecked
 class TypedModule extends Module {
 
 	protected Browser browser = super.browser
@@ -33,7 +34,7 @@ class TypedModule extends Module {
 	protected FrameSupport frameSupport
 	protected InteractionsSupport interactionsSupport
 	protected AlertAndConfirmSupport alertAndConfirmSupport
-
+	protected JavascriptInterface js
 	/**
 	 * Module without "content" closure and therefore
 	 * without Content Definition DSL.
@@ -524,7 +525,6 @@ class TypedModule extends Module {
 	}
 
 	@Override
-	@SuppressWarnings("ExplicitCallToGetAtMethod")
 	Navigator getAt(Collection indexes) {
 		getInitializedNavigator().getAt(indexes)
 	}
