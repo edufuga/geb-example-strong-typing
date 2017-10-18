@@ -126,8 +126,19 @@ class PageWithElementMethods extends TypedPage {
 	// 
 	// ModuleWithElementMethods categoryModule = module(ModuleWithElementMethods)
 
+	/**
+	 * Encloses the module definition within a Closure.
+	 * 
+	 * <p>
+	 * The module is available once the Closure is called.
+	 */
 	private final Closure<ModuleWithElementMethods> categoryModule = {module(ModuleWithElementMethods)}
 
+	/**
+	 * Delegates to {@link ModuleWithElementMethods#category category} content definition of the module.
+	 * @param cat
+	 * @return
+	 */
 	Navigator category(DictionaryCategory cat) {
 		ModuleWithElementMethods m = categoryModule.call()
 		assert m

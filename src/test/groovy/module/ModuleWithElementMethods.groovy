@@ -7,6 +7,13 @@ import groovy.transform.TypeChecked
 @TypeChecked
 class ModuleWithElementMethods extends TypedModule {
 
+	/**
+	 * Different "categories" of the main bar of the online dictionary.
+	 * 
+	 * <p>
+	 * Parameterized Closure with the dictionary category type.
+	 * The dictionary category is an enumeration for more type safety.
+	 */
 	Closure<Navigator> category = {DictionaryCategory category ->
 		$("ul.nav-primary").$(["data-pons-tab": category.category] as Map, "li")
 	}
