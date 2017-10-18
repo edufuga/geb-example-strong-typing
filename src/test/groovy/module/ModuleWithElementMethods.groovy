@@ -7,6 +7,13 @@ import groovy.transform.TypeChecked
 @TypeChecked
 class ModuleWithElementMethods extends TypedModule {
 
+	private DictionaryCategory categoria
+
+	ModuleWithElementMethods(DictionaryCategory categoria) {
+		// Objects.requireNonNull(categoria, "The dictionary category has to exist")
+		this.categoria = categoria
+	}
+
 	/**
 	 * Different "categories" of the main bar of the online dictionary.
 	 * 
@@ -14,7 +21,7 @@ class ModuleWithElementMethods extends TypedModule {
 	 * Parameterized Closure with the dictionary category type.
 	 * The dictionary category is an enumeration for more type safety.
 	 */
-	Closure<Navigator> category = {DictionaryCategory category ->
+	Closure<Navigator> category = {DictionaryCategory category = categoria ->
 		$("ul.nav-primary").$(["data-pons-tab": category.category] as Map, "li")
 	}
 
@@ -24,7 +31,7 @@ class ModuleWithElementMethods extends TypedModule {
 	 * @param cat Category of interest
 	 * @return Category navigator element
 	 */
-	Navigator category(DictionaryCategory cat) {
+	Navigator category(DictionaryCategory cat = categoria) {
 		category.call(cat)
 	}
 }
