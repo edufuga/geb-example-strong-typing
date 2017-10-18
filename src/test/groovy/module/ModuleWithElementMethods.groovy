@@ -17,6 +17,16 @@ class ModuleWithElementMethods extends TypedModule {
 	Closure<Navigator> category = {DictionaryCategory category ->
 		$("ul.nav-primary").$(["data-pons-tab": category.category] as Map, "li")
 	}
+
+	/**
+	 * Delegates to {@link #category category} closure.
+	 * 
+	 * @param cat Category of interest
+	 * @return Category navigator element
+	 */
+	Navigator category(DictionaryCategory cat) {
+		category.call(cat)
+	}
 }
 
 enum DictionaryCategory {

@@ -135,15 +135,9 @@ class PageWithElementMethods extends TypedPage {
 	private final Closure<ModuleWithElementMethods> categoryModule = {module(ModuleWithElementMethods)}
 
 	/**
-	 * Delegates to {@link ModuleWithElementMethods#category category} content definition of the module.
-	 * @param cat
-	 * @return
+	 * Delegates to module.
 	 */
 	Navigator category(DictionaryCategory cat) {
-		ModuleWithElementMethods m = categoryModule.call()
-		assert m
-		println "Module exists."
-		m.category.call(cat)
+		categoryModule.call().category(cat)
 	}
-
 }
