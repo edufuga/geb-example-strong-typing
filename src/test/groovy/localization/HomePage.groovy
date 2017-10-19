@@ -51,7 +51,7 @@ abstract class HomePage<L extends HomePageLocalizer> extends TypedPage {
 	 * @return List of words.
 	 */
 	List<String> getWords() {
-		return $("#typeahead-menu").$("li").collect { Navigator n -> n.text() }
+		return getDefinition({$("#typeahead-menu").$("li")}, true, false).collect { Navigator n -> n.text() }
 	}
 
 	/**
