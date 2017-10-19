@@ -1,5 +1,8 @@
 package localization
 
+import groovy.transform.TypeChecked
+
+@TypeChecked
 class HomePageGermanLocalizer implements HomePageLocalizer {
 
 	@Override

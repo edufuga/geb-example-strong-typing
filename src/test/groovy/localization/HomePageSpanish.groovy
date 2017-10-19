@@ -5,7 +5,9 @@ import java.util.List
 import basic.TypedPage
 import geb.navigator.Navigator
 import groovy.lang.MetaClass
+import groovy.transform.TypeChecked
 
+@TypeChecked
 class HomePageSpanish extends HomePage<HomePageSpanishLocalizer> {
 
 	static url = "http://es.pons.com/"
