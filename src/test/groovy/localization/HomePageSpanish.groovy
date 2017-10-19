@@ -6,7 +6,7 @@ import basic.TypedPage
 import geb.navigator.Navigator
 import groovy.lang.MetaClass
 
-class HomePageSpanish extends TypedPage implements HomePageTrait<HomePageSpanishLocalizer> {
+class HomePageSpanish extends HomePage<HomePageSpanishLocalizer> {
 
 	static url = "http://es.pons.com/"
 

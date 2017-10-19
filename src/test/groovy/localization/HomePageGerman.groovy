@@ -4,7 +4,7 @@ import java.util.List
 
 import basic.TypedPage
 
-class HomePageGerman extends TypedPage implements HomePageTrait<HomePageGermanLocalizer> {
+class HomePageGerman extends HomePage<HomePageGermanLocalizer> {
 
 	static url = "http://de.pons.com/"
 
