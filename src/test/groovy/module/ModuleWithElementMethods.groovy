@@ -52,18 +52,6 @@ class ModuleWithElementMethods extends TypedModule {
 		category().text()
 	}
 
-	def methodMissing(String name, args) {
-		
-	}
-
-	def propertyMissing(String name) {
-		value()
-	}
-
-	def propertyMissing(String name, val) {
-		
-	}
-
 }
 
 enum DictionaryCategory {

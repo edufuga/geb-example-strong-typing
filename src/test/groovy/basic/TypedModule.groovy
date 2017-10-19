@@ -22,8 +22,6 @@ import geb.waiting.WaitingSupport
 import groovy.lang.MetaClass
 import groovy.transform.TypeChecked
 
-//FIXME: Replace methodMissing and propertyMissing by something different
-// (without resorting to PageContentSupport, which doesn't exist anymore).
 @TypeChecked
 abstract class TypedModule extends Module {
 
@@ -692,6 +690,21 @@ abstract class TypedModule extends Module {
 	@Override
 	def <T> T waitFor(Map params = [:], Double timeout, Double interval, Closure<T> block) {
 		waitingSupport.waitFor(params, timeout, interval, block)
+	}
+
+	@Override
+	def methodMissing(String name, args) {
+
+	}
+
+	@Override
+	def propertyMissing(String name) {
+		
+	}
+
+	@Override
+	def propertyMissing(String name, val) {
+		
 	}
 
 }

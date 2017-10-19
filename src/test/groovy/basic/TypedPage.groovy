@@ -257,6 +257,21 @@ abstract class TypedPage extends Page {
 		waitingSupport.waitFor(params, timeout, interval, block)
 	}
 
+	@Override
+	def methodMissing(String name, args) {
+
+	}
+
+	@Override
+	def propertyMissing(String name) {
+		
+	}
+
+	@Override
+	def propertyMissing(String name, val) {
+		
+	}
+
 	protected Map<Integer, Navigator> navigatorCache = [:]
 
 	// FIXME: Likely the caching does not work with different closure parameters.
