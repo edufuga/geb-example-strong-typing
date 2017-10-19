@@ -694,5 +694,4 @@ class TypedModule extends Module {
 		waitingSupport.waitFor(params, timeout, interval, block)
 	}
 
-
 }
