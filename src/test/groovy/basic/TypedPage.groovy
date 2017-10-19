@@ -25,7 +25,7 @@ import groovy.transform.TypeCheckingMode
 import simple.ContentBuilder
 
 @TypeChecked
-class TypedPage extends Page {
+abstract class TypedPage extends Page {
 
 	protected Browser browser = super.getBrowser()
 	protected NavigableSupport navigableSupport
