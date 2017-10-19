@@ -25,7 +25,7 @@ import groovy.transform.TypeChecked
 //FIXME: Replace methodMissing and propertyMissing by something different
 // (without resorting to PageContentSupport, which doesn't exist anymore).
 @TypeChecked
-class TypedModule extends Module {
+abstract class TypedModule extends Module {
 
 	protected Browser browser = super.browser
 	protected Navigator navigator
