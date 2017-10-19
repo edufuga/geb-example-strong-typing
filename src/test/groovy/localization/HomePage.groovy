@@ -5,7 +5,9 @@ import java.util.List
 import basic.TypedPage
 import geb.navigator.Navigator
 import groovy.lang.Closure
+import groovy.transform.TypeChecked
 
+@TypeChecked
 abstract class HomePage<L extends HomePageLocalizer> extends TypedPage {
 
 	abstract L getLocalizer()
