@@ -4,6 +4,9 @@ import org.apache.commons.io.FileUtils
 apply plugin: "groovy"
 apply plugin: "eclipse"
 
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
 repositories {
     jcenter()
 }
@@ -38,16 +41,16 @@ buildscript {
 }
 
 dependencies {
-	testCompile "org.gebish:geb-core:1.1.1"
-	testCompile "org.gebish:geb-junit4:1.1.1"
-	testCompile "org.gebish:geb-spock:1.1.1"
-	testCompile("org.spockframework:spock-core:1.0-groovy-2.4") {
+	compile "org.gebish:geb-core:1.1.1"
+	compile "org.gebish:geb-junit4:1.1.1"
+	compile "org.gebish:geb-spock:1.1.1"
+	compile("org.spockframework:spock-core:1.0-groovy-2.4") {
 		exclude group: "org.codehaus.groovy-all"
 	}
-	testCompile "org.codehaus.groovy:groovy-all:2.4.10"
-	testCompile "org.seleniumhq.selenium:selenium-firefox-driver:3.3.1"
-	testCompile "org.seleniumhq.selenium:selenium-chrome-driver:3.3.1"
-	testCompile "org.seleniumhq.selenium:selenium-support:2.52.0"
+	compile "org.codehaus.groovy:groovy-all:2.4.10"
+	compile "org.seleniumhq.selenium:selenium-firefox-driver:3.3.1"
+	compile "org.seleniumhq.selenium:selenium-chrome-driver:3.3.1"
+	compile "org.seleniumhq.selenium:selenium-support:2.52.0"
 	compile group: 'commons-io', name: 'commons-io', version: '2.5'
 }
 
@@ -139,3 +142,19 @@ groovydoc {
 	docTitle = "Example of strongly typed Geb tests"
 	classpath = sourceSets.test.runtimeClasspath
 }
+
+//sourceSets {
+//	chromeTest {
+//		groovy {
+//		// this makes the groovy-compiler compile groovy- as well
+//		// as java-files.
+//		// Needed, because java is normally compiled before groovy.
+//		// Since we are using groovy objects from java, we need it
+//		// the other way round.
+//			srcDirs = ['src/test/groovy']
+//		}
+//		java {
+//			srcDirs = [] // don't compile Java code twice
+//		}
+//	}
+//}

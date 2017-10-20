@@ -10,7 +10,10 @@ import groovy.transform.TypeChecked
 @TypeChecked
 class HomePageSpanish extends HomePage<HomePageSpanishLocalizer> {
 
-	static url = "http://es.pons.com/"
+	@Override
+	public String getPageUrl() {
+		return "http://es.pons.com/";
+	}
 
 	@Override
 	public HomePageSpanishLocalizer getLocalizer() {

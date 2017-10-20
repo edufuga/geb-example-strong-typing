@@ -19,11 +19,11 @@ import geb.navigator.Navigator
 import geb.url.UrlFragment
 import geb.waiting.DefaultWaitingSupport
 import geb.waiting.WaitingSupport
+import groovy.transform.CompileStatic
 import groovy.transform.TypeChecked
 import groovy.lang.Closure
 import groovy.lang.Delegate
 import groovy.transform.TypeCheckingMode
-import simple.ContentBuilder
 
 @TypeChecked
 abstract class TypedPage extends Page {
@@ -36,6 +36,8 @@ abstract class TypedPage extends Page {
 	protected InteractionsSupport interactionsSupport
 	protected AlertAndConfirmSupport alertAndConfirmSupport
 
+	protected static String url = ""
+
 	@TypeChecked(TypeCheckingMode.SKIP)
 	@Override
 	void to(Map params, UrlFragment fragment = null, Object[] args) {
@@ -45,6 +47,16 @@ abstract class TypedPage extends Page {
 		}
 		getInitializedBrowser().go(params, getPageUrl(path), fragment ?: getPageFragment())
 		getInitializedBrowser().page(this)
+	}
+
+
+	@Override
+	abstract String getPageUrl()
+
+	@Override
+	String getPageUrl(String path) {
+		String pageUrl = getPageUrl()
+		path ? (pageUrl ? pageUrl + path : path) : pageUrl
 	}
 	
 	@Override

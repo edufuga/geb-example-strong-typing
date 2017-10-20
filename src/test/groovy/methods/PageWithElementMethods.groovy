@@ -14,8 +14,11 @@ import module.ModuleWithElementMethods
 @TypeChecked
 class PageWithElementMethods extends TypedPage {
 
-	static url = "http://de.pons.com/"
-
+	@Override
+	public String getPageUrl() {
+		return "http://de.pons.com/";
+	}
+	
 	/**
 	 * Final parameterless Closure.
 	 */

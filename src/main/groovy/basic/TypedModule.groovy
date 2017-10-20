@@ -20,6 +20,7 @@ import geb.waiting.DefaultWaitingSupport
 import geb.waiting.Wait
 import geb.waiting.WaitingSupport
 import groovy.lang.MetaClass
+import groovy.transform.CompileStatic
 import groovy.transform.TypeChecked
 
 @TypeChecked
