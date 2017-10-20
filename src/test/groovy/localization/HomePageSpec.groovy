@@ -1,8 +1,7 @@
 package localization
 
 import geb.spock.GebReportingSpec
-import groovy.transform.CompileStatic
-import groovy.transform.TypeChecked
+import spock.lang.Ignore
 import spock.lang.Unroll
 
 class HomePageSpec extends GebReportingSpec {
@@ -22,5 +21,15 @@ class HomePageSpec extends GebReportingSpec {
 		where: "I use several localizations"
 		pageClass << [HomePageSpanish, HomePageGerman]
 		word << ["esfera", "Kugel"]
+	}
+
+	@Ignore("Why not working?")
+	def "simple change of page"() {
+		when:
+		HomePageGerman page = browser.<HomePageGerman> to(HomePageGerman)
+		page.run(new HomePageGermanToSpanishJavaAction())
+
+		then:
+		browser.at(HomePageSpanish)
 	}
 }
