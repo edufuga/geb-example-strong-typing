@@ -17,6 +17,12 @@ public class HomePageTest extends GebReportingTest {
 
 		// then
 		browser.at(HomePageGerman.class);
+    }
 
+    @Test
+    public void thereAndBackAgain() {
+    	browser.to(HomePageSpanish.class)
+    		.run(new HomePageSpanishToGermanAction())
+    		.run(new HomePageGermanToSpanishJavaAction());
     }
 }
