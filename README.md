@@ -10,7 +10,7 @@ single word or change the home page between different languages. These
 are just simple examples for illustrating the proof of concept of
 having strongly typed Geb code.
 
-The idea being the proof of concept is to write tests in a more type
+The idea behind the proof of concept is to write tests in a more type
 safe manner than is currently possible with Geb and Groovy. Geb is a
 Groovy framework that makes heavy use of Groovy's dynamic programming
 features; the content definition DSL of Geb is based, for example, on
