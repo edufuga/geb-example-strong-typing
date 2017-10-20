@@ -2,6 +2,7 @@ package localization
 
 import java.util.List
 
+import actions.Action
 import basic.TypedPage
 import geb.navigator.Navigator
 import groovy.lang.MetaClass
@@ -18,6 +19,11 @@ class HomePageSpanish extends HomePage<HomePageSpanishLocalizer> {
 	@Override
 	public HomePageSpanishLocalizer getLocalizer() {
 		return new HomePageSpanishLocalizer();
+	}
+
+	public <O extends TypedPage> O run(Action<HomePageSpanish, O> action) {
+		println "Running action '$action' with page '$this'."
+		return action.run(this);
 	}
 
 }

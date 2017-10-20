@@ -23,14 +23,23 @@ class HomePageSpec extends GebReportingSpec {
 		word << ["esfera", "Kugel"]
 	}
 
-	def "simple change of page"() {
+	def "simple change of page from German to Spanish"() {
 		when:
 		HomePageGerman page = browser.<HomePageGerman> to(HomePageGerman)
-		Objects.requireNonNull(page, "The page has to exist.")
 		page.run(new HomePageGermanToSpanishJavaAction())
 		page.run(new HomePageGermanToSpanishGroovyAction())
 
 		then:
 		browser.at(HomePageSpanish)
 	}
+
+	def "simple change of page from Spanish to German"() {
+		when:
+		HomePageSpanish page = browser.<HomePageSpanish> to(HomePageSpanish)
+		page.run(new HomePageSpanishToGermanAction())
+
+		then:
+		browser.at(HomePageGerman)
+	}
+
 }
