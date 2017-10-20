@@ -9,6 +9,7 @@ class HomePageGermanToSpanishGroovyAction implements Action<HomePageGerman, Home
 
 	@Override
 	public HomePageSpanish run(HomePageGerman from) {
+		Objects.requireNonNull(from, "The page has to exist.")
 		from.browser.<HomePageSpanish> to(HomePageSpanish)
 	}
 

@@ -2,7 +2,9 @@ package localization;
 
 import actions.Action;
 import basic.TypedPage;
+import groovy.transform.TypeChecked
 
+@TypeChecked
 class HomePageGerman extends HomePage<HomePageGermanLocalizer> {
 
 	@Override
@@ -16,6 +18,7 @@ class HomePageGerman extends HomePage<HomePageGermanLocalizer> {
 	}
 
 	public <O extends TypedPage> O run(Action<HomePageGerman, O> action) {
+		println "Running action '$action' with page '$this'."
 		return action.run(this);
 	}
 }
