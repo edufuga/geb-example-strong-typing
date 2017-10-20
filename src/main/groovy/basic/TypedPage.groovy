@@ -49,6 +49,10 @@ abstract class TypedPage extends Page {
 		getInitializedBrowser().page(this)
 	}
 
+	@Override
+	Browser getBrowser() {
+		browser
+	}
 
 	@Override
 	abstract String getPageUrl()

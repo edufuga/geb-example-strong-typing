@@ -26,7 +26,7 @@ class HomePageSpec extends GebReportingSpec {
 	def "simple change of page"() {
 		when:
 		HomePageGerman page = browser.<HomePageGerman> to(HomePageGerman)
-		page.run(new HomePageGermanToSpanishGroovyAction())
+		page.run(new HomePageGermanToSpanishJavaAction())
 
 		then:
 		browser.at(HomePageSpanish)

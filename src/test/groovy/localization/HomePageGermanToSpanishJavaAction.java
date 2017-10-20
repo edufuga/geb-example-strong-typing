@@ -1,12 +1,14 @@
 package localization;
 
-import actions.Action;
+import java.util.Objects;
 
-public class HomePageGermanToSpanishJavaAction implements Action<HomePageGerman, HomePageSpanish> {
+public class HomePageGermanToSpanishJavaAction implements HomePageGermanAction<HomePageSpanish> {
 
 	@Override
 	public HomePageSpanish run(HomePageGerman from) {
-		return from.getBrowser().to(HomePageSpanish.class);
+		Objects.requireNonNull(from, "The page has to exist.");
+		Objects.requireNonNull(from.getBrowser(), "The browser has to exist.");
+		return from.getBrowser().<HomePageSpanish> to(HomePageSpanish.class);
 	}
 
 }
