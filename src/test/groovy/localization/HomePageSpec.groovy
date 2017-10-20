@@ -28,6 +28,7 @@ class HomePageSpec extends GebReportingSpec {
 		HomePageGerman page = browser.<HomePageGerman> to(HomePageGerman)
 		Objects.requireNonNull(page, "The page has to exist.")
 		page.run(new HomePageGermanToSpanishJavaAction())
+		page.run(new HomePageGermanToSpanishGroovyAction())
 
 		then:
 		browser.at(HomePageSpanish)
