@@ -42,7 +42,7 @@ abstract class TypedPage extends Page {
 
 	protected static String url = ""
 
-	protected static Closure at = {true}
+	protected static Closure<Boolean> at = {return true}
 
 	protected static atCheckWaiting = false
 
@@ -64,8 +64,6 @@ abstract class TypedPage extends Page {
 
 	@Override
 	abstract String getPageUrl()
-
-	// abstract Closure getAtChecker()
 
 	@Override
 	static Closure getAt() {
