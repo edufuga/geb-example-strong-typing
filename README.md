@@ -68,7 +68,10 @@ A more elaborate example is the abstract generic class `HomePage` and
 its subclasses `HomePageGerman` and `HomePageSpanish`. Here `HomePage`
 defines the *common content* independent of the localization (language).
 Language *specifica* like text is provided by implementations of the
-`HomePageLocalizer` interface.
+`HomePageLocalizer` interface. Additional content definitions specific
+to each localized version of the page would go in the corresponding
+subclasse (e.g. `HomePageGerman` could declare content not available in
+`HomePageSpanish`).
 
 Additionally the subclasses of `HomePage` illustrate the concept of an
 `Action`. The idea here is to extend the *logic* of a Page (provided in
