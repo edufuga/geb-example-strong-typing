@@ -26,6 +26,7 @@ class HomePageSpec extends GebReportingSpec {
 	def "simple change of page"() {
 		when:
 		HomePageGerman page = browser.<HomePageGerman> to(HomePageGerman)
+		Objects.requireNonNull(page, "The page has to exist.")
 		page.run(new HomePageGermanToSpanishJavaAction())
 
 		then:

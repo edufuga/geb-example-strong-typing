@@ -3,12 +3,15 @@ package basic
 import org.openqa.selenium.By
 import org.openqa.selenium.WebElement
 
+import geb.AtVerificationResult
 import geb.Browser
 import geb.Module
 import geb.Page
 import geb.content.NavigableSupport
 import geb.download.DefaultDownloadSupport
 import geb.download.DownloadSupport
+import geb.error.UndefinedAtCheckerException
+import geb.error.UnexpectedPageException
 import geb.frame.DefaultFrameSupport
 import geb.frame.FrameSupport
 import geb.interaction.DefaultInteractionsSupport
@@ -18,6 +21,7 @@ import geb.js.DefaultAlertAndConfirmSupport
 import geb.navigator.Navigator
 import geb.url.UrlFragment
 import geb.waiting.DefaultWaitingSupport
+import geb.waiting.Wait
 import geb.waiting.WaitingSupport
 import groovy.transform.CompileStatic
 import groovy.transform.TypeChecked
@@ -38,6 +42,10 @@ abstract class TypedPage extends Page {
 
 	protected static String url = ""
 
+	protected static Closure at = {true}
+
+	protected static atCheckWaiting = false
+
 	@TypeChecked(TypeCheckingMode.SKIP)
 	@Override
 	void to(Map params, UrlFragment fragment = null, Object[] args) {
@@ -57,6 +65,13 @@ abstract class TypedPage extends Page {
 	@Override
 	abstract String getPageUrl()
 
+	// abstract Closure getAtChecker()
+
+	@Override
+	static Closure getAt() {
+		return at
+	}
+
 	@Override
 	String getPageUrl(String path) {
 		String pageUrl = getPageUrl()
@@ -72,11 +87,100 @@ abstract class TypedPage extends Page {
 	}
 
 	/**
+	 * Checks if the browser is not at an unexpected page and then executes this page's "at checker".
+	 *
+	 * @return whether the at checker succeeded or not.
+	 * @see #verifyAtSafely(boolean)
+	 * @throws AssertionError if this page's "at checker" doesn't pass (with implicit assertions enabled)
+	 * @throws UnexpectedPageException when at an unexpected page
+	 */
+	@Override
+	boolean verifyAt() {
+		def verificationResult = getAtVerificationResult(true)
+		if (!verificationResult) {
+			getInitializedBrowser().checkIfAtAnUnexpectedPage(getClass())
+			verificationResult.rethrowAnyErrors()
+		}
+		verificationResult
+	}
+
+	/**
+	 * Executes this page's "at checker", suppressing any AssertionError that is thrown
+	 * and returning false.
+	 *
+	 * @return whether the at checker succeeded or not.
+	 * @see #verifyAt()
+	 */
+	@Override
+	boolean verifyAtSafely(boolean honourGlobalAtCheckWaiting = true) {
+		getAtVerificationResult(honourGlobalAtCheckWaiting)
+	}
+
+	/**
+	 * Executes this page's "at checker" and captures the result wrapping up any AssertionError that might have been thrown.
+	 *
+	 * @return at verification result with any AssertionError that might have been thrown wrapped up
+	 * @see AtVerificationResult
+	 */
+	@Override
+	AtVerificationResult getAtVerificationResult(boolean honourGlobalAtCheckWaiting = true) {
+		Throwable caughtException = null
+		boolean atResult = false
+		try {
+			atResult = verifyThisPageAtOnly(honourGlobalAtCheckWaiting)
+		} catch (AssertionError e) {
+			caughtException = e
+		}
+		new AtVerificationResult(atResult, caughtException)
+	}
+
+	/**
+	 * Executes this page's "at checker".
+	 *
+	 * @return whether the at checker succeeded or not.
+	 * @throws AssertionError if this page's "at checker" doesn't pass (with implicit assertions enabled)
+	 */
+	protected boolean verifyThisPageAtOnly(boolean honourGlobalAtCheckWaiting) {
+		Closure verifier = (Closure) getAt().clone()
+		if (verifier) {
+			verifier.delegate = this
+			verifier.resolveStrategy = Closure.DELEGATE_FIRST
+			def atCheckWaiting = getEffectiveAtCheckWaiting(honourGlobalAtCheckWaiting)
+			if (atCheckWaiting) {
+				atCheckWaiting.waitFor(verifier)
+			} else {
+				verifier()
+			}
+		} else {
+			// FIXME
+			// throw new UndefinedAtCheckerException()
+			false
+		}
+	}
+
+	@Override
+	protected Wait getGlobalAtCheckWaiting(boolean honourGlobalAtCheckWaiting) {
+		honourGlobalAtCheckWaiting ? getInitializedBrowser().config.atCheckWaiting : null
+	}
+
+	@Override
+	protected Wait getEffectiveAtCheckWaiting(boolean honourGlobalAtCheckWaiting) {
+		atCheckWaiting != null ? pageLevelAtCheckWaiting : getGlobalAtCheckWaiting(honourGlobalAtCheckWaiting)
+	}
+
+	@Override
+	protected Wait getPageLevelAtCheckWaiting() {
+		def atCheckWaitingValue = atCheckWaiting
+		getInitializedBrowser().config.getWaitForParam(atCheckWaitingValue)
+	}
+
+	/**
 	 * Page without "content" closure and therefore
 	 * without Content Definition DSL.
 	 */
 	@Override
 	Page init(Browser browser) {
+		println "Initializing the page $this."
 		this.browser = browser
 		navigableSupport = new NavigableSupport(browser.navigatorFactory)
 		downloadSupport = new DefaultDownloadSupport(browser)

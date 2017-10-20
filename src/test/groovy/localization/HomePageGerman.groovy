@@ -2,6 +2,7 @@ package localization;
 
 import actions.Action;
 import basic.TypedPage;
+import groovy.lang.Closure
 import groovy.transform.TypeChecked
 
 @TypeChecked
