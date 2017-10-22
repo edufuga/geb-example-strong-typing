@@ -30,22 +30,20 @@ public class HomePageTest extends GebReportingTest {
     }
 
     @Test
-    public void givenWhenThenTestWordList() {
+    public void wordList() {
 		assertTrue("The list of words is empty",
 			given(() -> browser.to(HomePageSpanish.class))
 			.when(spanishPage -> {
-	    		HomePageGerman german = spanishPage.getBrowser().to(HomePageGerman.class);
-	    		german.search("Haus");
-	    		return german;
+				spanishPage.search("casa");
+	    		return spanishPage;
 	    	})
-	    	.then(germanPage -> !germanPage.getWords().isEmpty()));
+	    	.then(spanishPage -> !spanishPage.getWords().isEmpty()));
     }
 
     @Test
-    public void givenWhenThenTestSpanishTitle() {
+    public void spanishTitle() {
 		assertTrue("The spanish title is empty",
-			given(() -> browser.to(HomePageGerman.class))
-			.when(german -> new HomePageGermanToSpanishJavaAction().run(german))
+			given(() -> browser.to(HomePageSpanish.class))
 			.then(page -> !page.getMainTitle().isEmpty()));
     }
 }
