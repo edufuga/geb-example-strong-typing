@@ -15,20 +15,16 @@ public class HomePageTest extends GebReportingTest {
 
     @Test
     public void simpleChangeFromSpanishToGerman() {
-    	// when
-		HomePageSpanish page = browser.<HomePageSpanish> to(HomePageSpanish.class);
-		// page.run(new HomePageGermanToSpanishGroovyAction()); // Java power.
-		page.run(new HomePageSpanishToGermanAction());
-
-		// then
-		browser.at(HomePageGerman.class);
+    	given(() -> browser.<HomePageSpanish> to(HomePageSpanish.class))
+    	.when(page -> page.run(new HomePageSpanishToGermanAction()))
+    	.then(page -> page.verifyAt());
     }
 
     @Test
     public void thereAndBackAgain() {
-    	browser.to(HomePageSpanish.class)
-    		.run(new HomePageSpanishToGermanAction())
-    		.run(new HomePageGermanToSpanishJavaAction());
+    	given(() ->	browser.to(HomePageSpanish.class))
+    	.when(spanish -> spanish.run(new HomePageSpanishToGermanAction()))
+    	.then(german -> german.run(new HomePageGermanToSpanishJavaAction()).verifyAt());
     }
 
     @Test
