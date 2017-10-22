@@ -8,6 +8,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import behaviour.Behaviour;
+
 import static behaviour.Behaviour.given;
 
 @RunWith(JUnit4.class)
@@ -15,7 +17,7 @@ public class HomePageTest extends GebReportingTest {
 
     @Test
     public void simpleChangeFromSpanishToGerman() {
-    	given(() -> browser.<HomePageSpanish> to(HomePageSpanish.class))
+    	new Behaviour(browser).given(browser -> browser.to(HomePageSpanish.class))
     	.when(page -> page.run(new HomePageSpanishToGermanAction()))
     	.then(page -> page.verifyAt());
     }
