@@ -1,6 +1,9 @@
 package localization;
 
 import geb.junit4.GebReportingTest;
+
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -30,12 +33,14 @@ public class HomePageTest extends GebReportingTest {
 
     @Test
     public void givenWhenThenTest() {
-    		Behaviour.given(() -> browser.to(HomePageSpanish.class))
-    		.when((HomePageSpanish spanishPage) -> {
-    			HomePageGerman german = spanishPage.getBrowser().to(HomePageGerman.class);
-    			german.search("Haus");
-    			return german;
-    		})
-    		.then((HomePageGerman germanPage) -> !germanPage.getWords().isEmpty());
+		assertTrue("The list of words is empty",
+			Behaviour
+				.given(() -> browser.to(HomePageSpanish.class))
+				.when(spanishPage -> {
+		    		HomePageGerman german = spanishPage.getBrowser().to(HomePageGerman.class);
+		    		german.search("Haus");
+		    		return german;
+		    	})
+		    	.then(germanPage -> !germanPage.getWords().isEmpty()));
     }
 }
