@@ -2,9 +2,7 @@ package behaviour;
 
 import java.util.function.Predicate;
 
-import basic.TypedPage;
-
-public class WhenResult<EndPage extends TypedPage> {
+public class WhenResult<EndPage> {
 
 	private EndPage endPage;
 

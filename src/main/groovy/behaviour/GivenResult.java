@@ -3,9 +3,7 @@ package behaviour;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import basic.TypedPage;
-
-public class GivenResult<StartPage extends TypedPage> {
+public class GivenResult<StartPage> {
 
 	private StartPage startPage;
 
@@ -17,7 +15,7 @@ public class GivenResult<StartPage extends TypedPage> {
 		return startPage;
 	}
 
-	public <EndPage extends TypedPage> WhenResult<EndPage> when(Function<StartPage, EndPage> whenAction) {
+	public <EndPage> WhenResult<EndPage> when(Function<StartPage, EndPage> whenAction) {
 		EndPage endPage = whenAction.apply(startPage);
 		return new WhenResult<EndPage>(endPage);
 	}
