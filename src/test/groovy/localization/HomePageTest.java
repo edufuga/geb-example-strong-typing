@@ -17,16 +17,16 @@ public class HomePageTest extends GebReportingTest {
 
     @Test
     public void simpleChangeFromSpanishToGerman() {
-    	new Behaviour(browser).given(browser -> browser.to(HomePageSpanish.class))
+    	assertTrue(new Behaviour(browser).given(browser -> browser.to(HomePageSpanish.class))
     	.when(page -> page.run(new HomePageSpanishToGermanAction()))
-    	.then(page -> page.verifyAt());
+    	.then(page -> page.verifyAt()));
     }
 
     @Test
     public void thereAndBackAgain() {
-    	given(() ->	browser.to(HomePageSpanish.class))
+    	assertTrue(given(() ->	browser.to(HomePageSpanish.class))
     	.when(spanish -> spanish.run(new HomePageSpanishToGermanAction()))
-    	.then(german -> german.run(new HomePageGermanToSpanishJavaAction()).verifyAt());
+    	.then(german -> german.run(new HomePageGermanToSpanishJavaAction()).verifyAt()));
     }
 
     @Test
