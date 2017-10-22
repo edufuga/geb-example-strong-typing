@@ -22,6 +22,7 @@ import geb.navigator.Navigator
 import geb.url.UrlFragment
 import geb.waiting.DefaultWaitingSupport
 import geb.waiting.Wait
+import geb.waiting.WaitTimeoutException
 import geb.waiting.WaitingSupport
 import groovy.transform.CompileStatic
 import groovy.transform.TypeChecked
@@ -433,7 +434,11 @@ abstract class TypedPage extends Page {
 		}
 
 		if (waiting) {
-			result = waitFor(definition)
+			try {
+				result = waitFor(definition)
+			}
+			catch(WaitTimeoutException we) {
+			}
 		}
 		else {
 			result = definition()
