@@ -438,6 +438,8 @@ abstract class TypedPage extends Page {
 		else {
 			result = definition()
 		}
+
+		result
 	}
 
 }

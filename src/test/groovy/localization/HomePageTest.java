@@ -34,10 +34,14 @@ public class HomePageTest extends GebReportingTest {
 		assertTrue("The list of words is empty",
 			given(() -> browser.to(HomePageSpanish.class))
 			.when(spanishPage -> {
+				spanishPage.search("asac");
+				return spanishPage;
+			})
+			.when(spanishPage -> {
 				spanishPage.search("casa");
-	    		return spanishPage;
-	    	})
-	    	.then(spanishPage -> !spanishPage.getWords().isEmpty()));
+				return spanishPage;
+			})
+			.then(spanishPage -> !spanishPage.getWords().isEmpty()));
     }
 
     @Test
