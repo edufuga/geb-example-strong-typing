@@ -14,7 +14,7 @@ class HomePageBDDSpec extends GebReportingSpec {
 
     def "simple change from spanish to german"() {
 		expect:
-		new Behaviour(browser).given { Browser bro -> bro.to(HomePageSpanish) }
+		given { browser.to(HomePageSpanish) }
     	.when { HomePageSpanish page -> page.run(new HomePageSpanishToGermanAction()) }
     	.then { HomePageGerman page -> page.verifyAt() }
     }
