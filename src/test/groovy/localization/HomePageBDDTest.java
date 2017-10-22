@@ -13,7 +13,7 @@ import behaviour.Behaviour;
 import static behaviour.Behaviour.given;
 
 @RunWith(JUnit4.class)
-public class HomePageTestBDD extends GebReportingTest {
+public class HomePageBDDTest extends GebReportingTest {
 
     @Test
     public void simpleChangeFromSpanishToGerman() {
