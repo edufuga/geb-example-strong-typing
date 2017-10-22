@@ -19,7 +19,7 @@ public class HomePageTest extends GebReportingTest {
     public void simpleChangeFromSpanishToGerman() {
     	assertTrue(new Behaviour(browser).given(browser -> browser.to(HomePageSpanish.class))
     	.when(page -> page.run(new HomePageSpanishToGermanAction()))
-    	.then(page -> page.verifyAt()));
+    	.then(HomePageGerman::verifyAt));
     }
 
     @Test
