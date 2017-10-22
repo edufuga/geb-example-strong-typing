@@ -111,3 +111,28 @@ with `HomePageSpec` for a concrete example; what happens there is: Calls
 to the `run` method of a certain page with the *wrong* argument (action)
 are not detected as erroneous in a Spock/Groovy test within Eclipse. In
 JUnit/Java the error is detected properly.
+
+A generalisation of `Action`s for writing tests in a BDD style can be
+found in the class `Behaviour`. The idea there is: Instead of directly
+calling the `run` method of a page that accepts an `Action` as an
+argument it is better to call the methods `given`, `when` and `then`
+provided by the `behaviour` package. The previous code would look then
+like the following:
+
+```java
+@Test
+public void thereAndBackAgain() {
+	assertTrue(given(() ->	browser.to(HomePageSpanish.class))
+	.when(spanish -> spanish.run(new HomePageSpanishToGermanAction()))
+	.then(german -> german.run(new HomePageGermanToSpanishJavaAction()).verifyAt()));
+}
+```
+
+The `given` method is statically imported from `Behaviour` and accepts a
+function or a supplier that supplies the concrete page instance of the
+setup. The `when` method does some logic on the page given by `given`
+and ends at a generally different page. The `then` method validates
+something at the final page. It should be noted that `Action`s are not
+excluded by these three methods but rather work together: The test
+*logic* is written using `Action` classes whereas the test *structure*
+is determined by the `given`, `when` and `then` methods.
